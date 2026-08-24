@@ -1,0 +1,137 @@
+/* The entire entrance is a fixed overlay that plays on load, then lifts to
+   reveal the site beneath it. z-index above the nav so nothing shows through
+   during the intro; it unmounts when done, so it can never overlap content. */
+.entrance-root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #05130d;
+  transition: opacity 1s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.entrance-root.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.entrance-stage { position: absolute; inset: 0; z-index: 0; }
+.entrance-stage canvas { display: block; }
+
+/* Opening veil */
+.entrance-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #020705;
+  display: grid;
+  place-items: center;
+  transition: opacity 1.6s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.entrance-veil.gone { opacity: 0; }
+.entrance-veil-mark {
+  font-family: var(--mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  color: rgba(238, 240, 230, 0.5);
+}
+
+/* Skip button */
+.entrance-skip {
+  position: absolute;
+  top: clamp(1.4rem, 4vh, 2.4rem);
+  right: clamp(1.4rem, 4vw, 2.4rem);
+  z-index: 5;
+  font-family: var(--mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(238, 240, 230, 0.45);
+  padding: 0.5rem 0.2rem;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease, ease), color 0.3s var(--ease, ease);
+  pointer-events: none;
+}
+.entrance-skip.show { opacity: 1; pointer-events: auto; }
+.entrance-skip:hover { color: var(--ink, #f5f5f0); }
+
+/* Scroll-to-enter cue (only after the intro finishes) */
+.entrance-cue {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: clamp(1.6rem, 5vh, 3rem);
+  z-index: 4;
+  text-align: center;
+  font-family: var(--mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: rgba(238, 240, 230, 0.55);
+  opacity: 0;
+  transition: opacity 1.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  pointer-events: none;
+}
+.entrance-cue.show { opacity: 1; }
+.entrance-cue-dot {
+  display: block; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--green, #1f9d55); margin: 0 auto 0.8rem;
+  animation: entrance-pulse 2.4s var(--ease, ease) infinite;
+}
+@keyframes entrance-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.7); }
+}
+
+/* --- Wordmark (responsive DOM typography over the field) ---------- */
+.entrance-word {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+  will-change: transform;
+}
+.entrance-word::before {
+  content: '';
+  grid-area: 1 / 1;
+  width: min(1100px, 88vw);
+  aspect-ratio: 2 / 1;
+  background: radial-gradient(closest-side, rgba(31, 157, 85, 0.14), transparent 72%);
+  filter: blur(18px);
+}
+.kx-word {
+  grid-area: 1 / 1;
+  display: flex;
+  justify-content: center;
+  gap: 0.01em;
+  font-family: var(--serif, sans-serif);
+  font-weight: 700;
+  font-size: clamp(3.4rem, 14vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--ink, #f5f5f0);
+}
+.kx-letter { display: block; overflow: hidden; padding: 0 0.005em; }
+.kx-inner { display: block; transform: translateY(0); will-change: transform; }
+.kx-sub {
+  grid-area: 1 / 1;
+  align-self: end;
+  margin-bottom: clamp(3rem, 12vh, 7rem);
+  font-family: var(--mono, monospace);
+  font-size: clamp(0.6rem, 1.3vw, 0.85rem);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  text-transform: uppercase;
+  color: var(--sage, #1f9d55);
+}
+
+/* Reduced-motion static splash */
+.entrance-root.reduced {
+  background: radial-gradient(80% 60% at 50% 45%, #0b3d2e 0%, #05130d 55%, #020705 100%);
+  animation: reduced-fade 1.6s ease forwards;
+}
+@keyframes reduced-fade {
+  0%, 60% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}

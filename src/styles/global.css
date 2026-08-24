@@ -1,0 +1,131 @@
+/* =====================================================================
+   KAELIX SITE — global styles & design tokens (brand)
+   ===================================================================== */
+
+:root {
+  /* Backgrounds — obsidian / graphite */
+  --bg: #0a0d0b;
+  --bg-deep: #050505;
+  --bg-black: #000000;
+
+  /* Text — off-white / white */
+  --ink: #f5f5f0;
+  --ink-dim: rgba(245, 245, 240, 0.55);
+  --ink-faint: rgba(245, 245, 240, 0.34);
+  --line: rgba(245, 245, 240, 0.12);
+
+  /* Accent — Kaelix green (held in --sage so every component picks it up) */
+  --sage: #1f9d55;      /* brighter green for small text/accents (readable) */
+  --sage-deep: #007a3d; /* brand green for fills */
+  --warm: #f5f5f0;
+
+  /* Type */
+  --serif: 'Clash Display', 'Space Grotesk', sans-serif; /* headings */
+  --sans: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif; /* body */
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace; /* technical */
+
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --maxw: 1600px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-x: hidden;
+  background-image: radial-gradient(120% 80% at 50% -10%, #0d1712 0%, var(--bg) 42%, var(--bg-black) 100%);
+  background-attachment: fixed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body, a, button { cursor: none; }
+}
+
+::selection { background: var(--sage-deep); color: var(--ink); }
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; }
+img { display: block; max-width: 100%; }
+ul { list-style: none; }
+
+/* Site content sits above the entrance's fixed canvas and scrolls over it */
+.site { position: relative; z-index: 2; background: var(--bg); }
+
+/* --- Type utilities ---------------------------------------------- */
+.display {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: clamp(0.62rem, 0.9vw, 0.72rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+/* --- Layout ------------------------------------------------------- */
+.shell { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
+.section { position: relative; padding-block: clamp(6rem, 14vh, 11rem); }
+
+.smarker {
+  position: absolute;
+  top: clamp(5rem, 12vh, 8rem);
+  left: var(--gutter);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--sage);
+}
+
+.reveal-line { display: block; overflow: hidden; }
+.reveal-inner { display: inline-block; will-change: transform; }
+
+/* --- Grain -------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Cursor ------------------------------------------------------- */
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  pointer-events: none; border-radius: 50%; transform: translate(-50%, -50%);
+}
+.cursor-dot { width: 6px; height: 6px; background: var(--ink); }
+.cursor-ring {
+  width: 38px; height: 38px; border: 1px solid var(--line);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.cursor-ring.is-active {
+  width: 64px; height: 64px; border-color: var(--sage);
+  background: rgba(31, 157, 85, 0.1);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* --- Marquee ------------------------------------------------------ */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

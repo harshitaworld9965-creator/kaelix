@@ -1,0 +1,110 @@
+.elements {
+  background: var(--bg-black);
+  border-top: 1px solid var(--line);
+}
+.el-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+.el-title {
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  letter-spacing: -0.02em;
+}
+
+.el-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* Readout */
+.el-readout {
+  display: flex;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  align-items: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  background: linear-gradient(160deg, rgba(169, 192, 140, 0.05), transparent 60%);
+  min-height: 190px;
+}
+.el-readout-sym {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 10vw, 7rem);
+  line-height: 0.8;
+  color: var(--warm);
+}
+.el-readout-cat {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.el-readout-name {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  margin: 0.3rem 0 0.7rem;
+}
+.el-readout-desc {
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  max-width: 46ch;
+}
+
+/* Grid */
+.el-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.8rem);
+}
+.el-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: clamp(0.6rem, 1.4vw, 1rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+.el-tile:hover,
+.el-tile.on {
+  background: rgba(169, 192, 140, 0.08);
+  border-color: var(--sage);
+  transform: translateY(-3px);
+}
+.el-tile-n {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+.el-tile-sym {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.el-tile-name {
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+@media (min-width: 720px) {
+  .el-grid { grid-template-columns: repeat(5, 1fr); }
+}
+@media (min-width: 1000px) {
+  .el-layout { grid-template-columns: 0.9fr 1.6fr; align-items: start; }
+  .el-readout { position: sticky; top: 120px; }
+}

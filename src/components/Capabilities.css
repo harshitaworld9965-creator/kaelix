@@ -1,0 +1,97 @@
+.capabilities {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+.cap-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.cap-heading {
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  letter-spacing: -0.02em;
+}
+
+.cap-row {
+  border-top: 1px solid var(--line);
+}
+.cap-row:last-child { border-bottom: 1px solid var(--line); }
+
+.cap-trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1.3rem, 3vw, 2rem) 0;
+  text-align: left;
+}
+.cap-title {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 3.2vw, 2.4rem);
+  line-height: 1.1;
+  color: var(--ink);
+  transition: color 0.3s var(--ease);
+}
+.cap-row.open .cap-title { color: var(--warm); }
+
+.cap-tag {
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+@media (max-width: 620px) {
+  .cap-tag { display: none; }
+}
+
+/* Plus / minus sign */
+.cap-sign {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.cap-sign-h,
+.cap-sign-v {
+  position: absolute;
+  background: var(--ink);
+  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
+}
+.cap-sign-h {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+.cap-sign-v {
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+.cap-row.open .cap-sign-v { transform: translateX(-50%) scaleY(0); opacity: 0; }
+
+/* Body: animate max height via grid-template-rows */
+.cap-body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease);
+}
+.cap-row.open .cap-body-wrap {
+  grid-template-rows: 1fr;
+}
+.cap-body-inner {
+  overflow: hidden;
+}
+.cap-body-inner p {
+  font-family: var(--sans);
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--ink-dim);
+  max-width: 64ch;
+  padding-bottom: clamp(1.4rem, 3vw, 2.2rem);
+}
